@@ -32,11 +32,11 @@ void entity_loop() {
 
 		Vector3 vec;
 
-		vec.x = drv->RPM<float>(local + OFFSET_ORIGIN);
-		vec.y = drv->RPM<float>(local + OFFSET_ORIGIN + 0x4);
-		vec.z = drv->RPM<float>(local + OFFSET_ORIGIN + 0x8);
-
-		std::cout << "x " << vec.x << " y " << vec.y << " " << vec.z << "\n";
+		vec = drv->RPM<Vector3>(local + OFFSET_ORIGIN);
+		//vec.y = drv->RPM<float>(local + OFFSET_ORIGIN + 0x4);
+		//vec.z = drv->RPM<float>(local + OFFSET_ORIGIN + 0x8);
+		std::cout << "entity " << entity << "\n";
+		//std::cout << "x " << vec.x << " y " << vec.y << " " << vec.z << "\n";
 	}
 
 }
