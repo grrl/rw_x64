@@ -1,7 +1,7 @@
 #include <iostream>
 #include "memory.h"
 #include "w2s.h"
-
+#include "draw.h"
 QWORD get_local() {
 	return drv->RPM<QWORD>(drv->base + OFFSET_LOCAL_ENT);
 }
@@ -30,21 +30,24 @@ void entity_loop() {
 		if (entity == local)
 			continue;
 
-		//QWORD name = read<QWORD>(entity + OFFSET_NAME);
-		//std::cout << "name " << name << "\n";
 		if (!entity)  // "player.."
 			continue;
-
-		//QWORD name = drv->RPM<QWORD>(entity + OFFSET_NAME);
-		//if (name != 125780153691248)  // "player.."
-		//{
-		//	continue;
-		//}
-
+		/*
+		QWORD name = drv->RPM<QWORD>(entity + OFFSET_NAME);
+		std::cout << "name " << name << "\n";
+		if (name != 125780153691248)  // "player.."
+		{
+			continue;
+		}
+		*/
 		Vector3 vec;
 		//Vector3 entity_pos = drv->RPM<Vector3>(entity + OFFSET_ORIGIN);
 		//Vector3 entity_transformed;
 		vec = drv->RPM<Vector3>(local + OFFSET_ORIGIN);
 		std::cout << "vec is " << vec.x << " " << vec.y << " " << vec.z << "\n";
+		//if (!WorldToScreen(entity_pos, entity_transformed))
+			//continue;
+
+		//DrawShadowString((char*)"enemy", entity_transformed.x, entity_transformed.y, 255, 0, 255, dx_FontCalibri);
 	}
 }
