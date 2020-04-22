@@ -12,6 +12,7 @@
 #include "d3d9.h"
 #include "draw.h"
 #include "memory.h"
+#include "menu.h"
 
 char lWindowName[256] = "Overlay";
 char tWindowName[256] = "Apex Legends"; // put Game window name here
@@ -19,43 +20,10 @@ char tWindowName[256] = "Apex Legends"; // put Game window name here
 //Memory* memory;
 MARGINS pMargin;
 MSG Message;
-bool aim;
-
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 int render();
 
 Driver* drv;
-
-void SendKey() {
-	INPUT input;
-	WORD vkey = VK_LEFT; // see link below
-	input.type = INPUT_KEYBOARD;
-	input.ki.wScan = MapVirtualKey(vkey, MAPVK_VK_TO_VSC);
-	input.ki.time = 0;
-	input.ki.dwExtraInfo = 0;
-	input.ki.wVk = vkey;
-	input.ki.dwFlags = 0; // there is no KEYEVENTF_KEYDOWN
-	SendInput(1, &input, sizeof(INPUT));
-}
-
-void ChangeClickability(bool canclick, HWND ownd)
-{
-	long style = GetWindowLong(
-		ownd, GWL_EXSTYLE);
-	if (canclick) {
-		style &= ~WS_EX_LAYERED;
-		SetWindowLong(ownd,
-			GWL_EXSTYLE, style);
-		SetForegroundWindow(ownd);
-		windowstate = 1;
-	}
-	else {
-		style |= WS_EX_LAYERED;
-		SetWindowLong(ownd,
-			GWL_EXSTYLE, style);
-		windowstate = 0;
-	}
-}
 
 
 LRESULT CALLBACK Proc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
@@ -254,24 +222,7 @@ int render() {
 	if (show_menu)
 	{
 
-		if (windowstate != 1) //You might need to remove this check and call it every time to get keyboard input working. Mouse input works anyway.
-		{
-			ChangeClickability(true, ohwnd);
-			SendKey();
-		}
-
-		ImGui::SetNextWindowSize(ImVec2(80, 80));
-		if (ImGui::Begin(/*"äOêl"*/"It's the only NEET thing to do", nullptr,
-			ImGuiWindowFlags_NoResize |
-			ImGuiWindowFlags_NoCollapse |
-			/*ImGuiWindowFlags_AlwaysAutoResize |*/
-			ImGuiWindowFlags_NoSavedSettings
-		))
-		{
-			ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-			ImGui::Checkbox("Aimb##aim", &aim);
-			ImGui::End();
-		}
+		menu();
 
 	}
 	else if (windowstate != 0)

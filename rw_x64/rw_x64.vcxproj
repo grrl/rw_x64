@@ -134,8 +134,8 @@
     <ClCompile Include="ImGui\imgui_impl_win32.cpp" />
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="maths.cpp" />
     <ClCompile Include="memory.cpp" />
+    <ClCompile Include="menu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="d3d9.h" />
@@ -151,6 +151,7 @@
     <ClInclude Include="ImGui\imstb_truetype.h" />
     <ClInclude Include="macro.h" />
     <ClInclude Include="memory.h" />
+    <ClInclude Include="menu.h" />
     <ClInclude Include="offsets.h" />
     <ClInclude Include="structs.h" />
     <ClInclude Include="vector3.h" />
