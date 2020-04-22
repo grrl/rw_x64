@@ -15,22 +15,29 @@ void UpdateMatrix() {
 
 void entity_loop() {
 
-	//UpdateMatrix();
+	UpdateMatrix();
+
+	//std::cout << "matrix " << m_fMatrix[0] << "\n";
 
 	for (size_t i = 0; i < 150; i++)
 	{
-		QWORD entitylist = drv->RPM<QWORD>(drv->base + OFFSET_ENTITYLIST);
+		uint64_t entitylist = drv->base + OFFSET_ENTITYLIST;
+		std::cout << "entitylist " << entitylist << "\n";
+		//if (!entitylist)
+		//	continue;
 		//std::cout << "entitylist " << entitylist << "\n";
-		QWORD entity = drv->RPM<QWORD>(entitylist + ((QWORD)i << 5));
+		uint64_t entity = drv->RPM<uint64_t>(entitylist + ((uint64_t)i << 5));
 		//std::cout << "entity " << entity << "\n";
 
-		QWORD local = get_local();
+		uint64_t local = get_local();
 		//std::cout << "local " << local << "\n";
+		Vector3 vec = drv->RPM<Vector3>(local + OFFSET_ORIGIN);
+		std::cout << "local is " << vec.x << " " << vec.y << " " << vec.z << "\n";
 
 		if (entity == local)
 			continue;
 
-		if (!entity)  // "player.."
+		if (!entity || entity == 0)  // "player.."
 			continue;
 		/*
 		QWORD name = drv->RPM<QWORD>(entity + OFFSET_NAME);
@@ -40,14 +47,20 @@ void entity_loop() {
 			continue;
 		}
 		*/
-		Vector3 vec;
-		//Vector3 entity_pos = drv->RPM<Vector3>(entity + OFFSET_ORIGIN);
-		//Vector3 entity_transformed;
-		vec = drv->RPM<Vector3>(local + OFFSET_ORIGIN);
-		std::cout << "vec is " << vec.x << " " << vec.y << " " << vec.z << "\n";
-		//if (!WorldToScreen(entity_pos, entity_transformed))
-			//continue;
+		Vector3 vect, entity_transformed;
+		std::cout << "entity " << entity << "\n";
+		Vector3 entity_pos = drv->RPM<Vector3>(entity + OFFSET_ORIGIN);
 
-		//DrawShadowString((char*)"enemy", entity_transformed.x, entity_transformed.y, 255, 0, 255, dx_FontCalibri);
+		if (&entity_pos == nullptr)
+			continue;
+
+		std::cout << "entitypos " << entity_pos.x << " " << entity_pos.y << " " << entity_pos.z << "\n";
+		//Vector3 entity_transformed;
+		//vec = drv->RPM<Vector3>(local + OFFSET_ORIGIN);
+		//std::cout << "vec is " << vec.x << " " << vec.y << " " << vec.z << "\n";
+		if (!WorldToScreen(entity_pos, entity_transformed))
+			continue;
+
+		DrawShadowString((char*)"enemy", entity_transformed.x, entity_transformed.y, 255, 0, 255, dx_FontCalibri);
 	}
 }
