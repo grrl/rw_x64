@@ -16,14 +16,14 @@ public:
 	DWORD ProcessId;
 	QWORD base;
 	template <class T>
-	T RPM(uintptr_t address)
+	T RPM(QWORD address)
 	{
 		//T read = ReadVirtualMemory<T>(ProcessId, address, sizeof(T));
 		return ReadVirtualMemory<T>(ProcessId, address, sizeof(T));
 	}
 
 	template <typename type>
-	type ReadVirtualMemory(DWORD ProcessId, uintptr_t ReadAddress,
+	type ReadVirtualMemory(DWORD ProcessId, QWORD ReadAddress,
 		SIZE_T Size)
 	{
 		if (hDriver == INVALID_HANDLE_VALUE)

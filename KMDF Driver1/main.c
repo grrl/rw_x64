@@ -81,7 +81,7 @@ PLOAD_IMAGE_NOTIFY_ROUTINE ImageLoadCallback(PUNICODE_STRING FullImageName,
 NTSTATUS IoControl(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 {
 	NTSTATUS Status;
-	QWORD BytesIO = 0;
+	DWORD BytesIO = 0;
 
 	PIO_STACK_LOCATION stack = IoGetCurrentIrpStackLocation(Irp);
 
