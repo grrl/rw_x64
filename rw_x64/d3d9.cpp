@@ -21,7 +21,7 @@ int borderWidth, borderHeight;
 HWND hWnd, TargetWnd, ohwnd;
 RECT WindowRect, ClientRect;
 bool show_menu;
-float fov = 30;
+float fov = 45;
 /*
 We require to initialize the D3D drawing, so we require hWnd. Windows identifies each form or application by assigning it a handle or also known as hWnd.
 */

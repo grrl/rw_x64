@@ -45,7 +45,7 @@ void menu() {
 		SendKey();
 	}
 
-	ImGui::SetNextWindowSize(ImVec2(80, 80));
+	ImGui::SetNextWindowSize(ImVec2(140, 100));
 	if (ImGui::Begin(/*"äOêl"*/"It's the only NEET thing to do", nullptr,
 		ImGuiWindowFlags_NoResize |
 		ImGuiWindowFlags_NoCollapse |
@@ -55,6 +55,7 @@ void menu() {
 	{
 		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
 		ImGui::Checkbox("Aimb##aim", &aim);
+		ImGui::SliderFloat("Fov##fovslider", &fov, 1.0f, 180.f, "%1.0f");
 		ImGui::End();
 	}
 }
