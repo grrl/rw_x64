@@ -308,14 +308,12 @@ void entity_loop() {
 
 		if (!entity || entity == 0)  // "player.."
 			continue;
-		/*
-		QWORD name = drv->RPM<QWORD>(entity + OFFSET_NAME);
-		std::cout << "name " << name << "\n";
-		if (name != 125780153691248)  // "player.."
-		{
+
+		float health = GetEntityHealth(entity);
+
+		if (health <= 0)
 			continue;
-		}
-		*/
+
 		Vector3 vect, entity_transformed, entityhead_transformed;
 		Vector3 entity_pos = drv->RPM<Vector3>(entity + OFFSET_ORIGIN);
 
@@ -346,7 +344,6 @@ void entity_loop() {
 		}
 
 		float Height = entityhead_transformed.y - entity_transformed.y;
-		float health = GetEntityHealth(entity);
 		float delta = (Height / 100.0f) * health;
 
 		if (health > 75)
