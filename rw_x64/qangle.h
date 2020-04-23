@@ -1,7 +1,8 @@
 #pragma once
-
+#include <iostream>
 #define CHECK_VALID( _v ) 0
 #define Assert( _exp ) ((void)0)
+#define FastSqrt(x)			(sqrt)(x)
 
 class QAngleByValue;
 class QAngle

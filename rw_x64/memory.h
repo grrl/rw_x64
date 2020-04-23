@@ -9,4 +9,5 @@ extern Driver* drv;
 QWORD get_local();
 void UpdateMatrix();
 void entity_loop();
+QWORD findClosestToCrosshair();
 void __stdcall thread();
