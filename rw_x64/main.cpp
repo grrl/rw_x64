@@ -13,6 +13,7 @@
 #include "draw.h"
 #include "memory.h"
 #include "menu.h"
+#include "color.h"
 
 char lWindowName[256] = "Overlay";
 char tWindowName[256] = "Apex Legends"; // put Game window name here
@@ -227,6 +228,7 @@ int render() {
 	}
 
 	if (!show_menu) {
+		Circle((int)(clientWidth / 2), (int)(clientHeight / 2), fov, 0, full, true, 32, BLACK(255));
 		UpdateMatrix();
 		entity_loop();
 	}

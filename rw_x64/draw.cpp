@@ -1,7 +1,12 @@
+#include <iostream>
+#include <vector>
 #include "draw.h"
 #include "vector3.h"
 
 #define PI 3.14159265
+
+LPDIRECT3DVERTEXBUFFER9 g_pVB;    // Buffer to hold vertices
+LPDIRECT3DINDEXBUFFER9  g_pIB;    // Buffer to hold indices
 
 int DrawString(char* String, int x, int y, int r, int g, int b, ID3DXFont* ifont)
 {
@@ -147,4 +152,59 @@ void Circle(int X, int Y, int radius, int numSides, DWORD Color)
 	dx_Line->Begin();
 	dx_Line->Draw(Line, Count, Color);
 	dx_Line->End();
+}
+
+
+void Circle(float x, float y, float radius, int rotate, int type, bool smoothing, int resolution, DWORD color)
+{
+	std::vector<vertex> circle(resolution + 2);
+	float angle = rotate * D3DX_PI / 180;
+	float pi;
+
+	if (type == full) pi = D3DX_PI;        // Full circle
+	if (type == half) pi = D3DX_PI / 2;      // 1/2 circle
+	if (type == quarter) pi = D3DX_PI / 4;   // 1/4 circle
+
+	for (int i = 0; i < resolution + 2; i++)
+	{
+		circle[i].x = (float)(x - radius * cos(i*(2 * pi / resolution)));
+		circle[i].y = (float)(y - radius * sin(i*(2 * pi / resolution)));
+		circle[i].z = 0;
+		circle[i].rhw = 1;
+		circle[i].color = color;
+	}
+
+	// Rotate matrix
+	int _res = resolution + 2;
+	for (int i = 0; i < _res; i++)
+	{
+		circle[i].x = x + cos(angle)*(circle[i].x - x) - sin(angle)*(circle[i].y - y);
+		circle[i].y = y + sin(angle)*(circle[i].x - x) + cos(angle)*(circle[i].y - y);
+	}
+
+	dx_Device->CreateVertexBuffer((resolution + 2) * sizeof(vertex), D3DUSAGE_WRITEONLY, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &g_pVB, NULL);
+
+	VOID* pVertices;
+	g_pVB->Lock(0, (resolution + 2) * sizeof(vertex), (void**)&pVertices, 0);
+	memcpy(pVertices, &circle[0], (resolution + 2) * sizeof(vertex));
+	g_pVB->Unlock();
+
+
+	dx_Device->SetTexture(0, NULL);
+	dx_Device->SetPixelShader(NULL);
+	if (smoothing)
+	{
+		dx_Device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, TRUE);
+		dx_Device->SetRenderState(D3DRS_ANTIALIASEDLINEENABLE, TRUE);
+	}
+	dx_Device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	dx_Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	dx_Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	dx_Device->SetStreamSource(0, g_pVB, 0, sizeof(vertex));
+	dx_Device->SetFVF(D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+
+	dx_Device->DrawPrimitive(D3DPT_LINESTRIP, 0, resolution);
+	if (g_pVB != NULL) 
+		g_pVB->Release();
 }

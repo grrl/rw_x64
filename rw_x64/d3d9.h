@@ -19,6 +19,8 @@ extern D3DPRESENT_PARAMETERS dx_Params;
 extern ID3DXLine* dx_Line;
 extern ID3DXFont* dx_Font;
 extern ID3DXFont* dx_FontCalibri;
+extern LPDIRECT3DVERTEXBUFFER9 g_pVB;    // Buffer to hold vertices
+extern LPDIRECT3DINDEXBUFFER9  g_pIB;    // Buffer to hold indice
 extern HWND hWnd, TargetWnd, ohwnd;
 extern RECT WindowRect, ClientRect;
 extern bool show_menu;
@@ -26,6 +28,6 @@ extern float clientHeight, clientWidth;
 extern int windowWidth, windowHeight;
 extern int borderWidth, borderHeight;
 extern int windowstate;
-
+extern float fov;
 int D3D9Init(HWND hWnd);
 #endif

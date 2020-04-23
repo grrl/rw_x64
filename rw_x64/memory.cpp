@@ -247,8 +247,6 @@ QWORD findClosestToCrosshair() {
 
 }
 
-float fov = 30.f;
-
 void MouseEventAimbot(QWORD Entity) {
 
 	//int EntNum = FindClosestEnemy();

@@ -11,8 +11,6 @@ D3DPRESENT_PARAMETERS dx_Params;
 ID3DXLine* dx_Line;
 ID3DXFont* dx_Font = 0;
 ID3DXFont* dx_FontCalibri = 0;
-LPDIRECT3DVERTEXBUFFER9 g_pVB;    // Buffer to hold vertices
-LPDIRECT3DINDEXBUFFER9  g_pIB;    // Buffer to hold indices
 
 int FontNr;
 LPD3DXSPRITE sSprite;
@@ -23,6 +21,7 @@ int borderWidth, borderHeight;
 HWND hWnd, TargetWnd, ohwnd;
 RECT WindowRect, ClientRect;
 bool show_menu;
+float fov = 30;
 /*
 We require to initialize the D3D drawing, so we require hWnd. Windows identifies each form or application by assigning it a handle or also known as hWnd.
 */

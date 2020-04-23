@@ -8,6 +8,17 @@
 #pragma comment(lib, "d3dx9.lib")
 #include "d3d9.h"
 
+enum circle_type { full, half, quarter };
+
+struct vertex
+{
+	FLOAT x, y, z, rhw;
+	DWORD color;
+};
+
+extern LPDIRECT3DVERTEXBUFFER9 g_pVB;    // Buffer to hold vertices
+extern LPDIRECT3DINDEXBUFFER9  g_pIB;    // Buffer to hold indice
+
 void GradientFunc(int x, int y, int w, int h, int r, int g, int b, int a);
 void DrawCenterLine(float x, float y, int r, int g, int b, int a);
 void DrawLine(float x, float y, float xx, float yy, int r, int g, int b, int a);
@@ -20,3 +31,6 @@ void Circle(int X, int Y, int radius, int numSides, DWORD Color);
 
 int DrawString(char* String, int x, int y, int r, int g, int b, ID3DXFont* ifont);
 int DrawShadowString(char* String, int x, int y, int r, int g, int b, ID3DXFont* ifont);
+
+void Circle(float x, float y, float radius, int rotate, int type, bool smoothing, int resolution, DWORD color);
+
