@@ -20,6 +20,8 @@ char tWindowName[256] = "Apex Legends"; // put Game window name here
 //Memory* memory;
 MARGINS pMargin;
 MSG Message;
+HANDLE hnd;
+DWORD id;
 extern LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 int render();
 
@@ -49,6 +51,7 @@ LRESULT CALLBACK Proc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 	}
 }
 
+
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	AllocConsole();
@@ -69,6 +72,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	//memory->set_driver();
 
 	HWND MyWindowHwnd = FindWindowA(0, "Apex Legends");
+
+	hnd = CreateThread(NULL, // security attributes ( default if NULL )
+		0, // stack SIZE default if 0
+		(LPTHREAD_START_ROUTINE)thread, // Start Address
+		NULL, // input data
+		0, // creational flag ( start if  0 )
+		&id); // thread ID
 
 	RECT rect;
 	if (GetClientRect(MyWindowHwnd, &rect)) {

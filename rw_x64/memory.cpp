@@ -64,3 +64,10 @@ void entity_loop() {
 		DrawShadowString((char*)"enemy", entity_transformed.x, entity_transformed.y, 255, 0, 255, dx_FontCalibri);
 	}
 }
+
+void __stdcall thread() {
+
+	while (true) {
+
+	}
+}
