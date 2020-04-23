@@ -153,6 +153,7 @@
     <ClInclude Include="memory.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="offsets.h" />
+    <ClInclude Include="qangle.h" />
     <ClInclude Include="structs.h" />
     <ClInclude Include="vector3.h" />
     <ClInclude Include="w2s.h" />

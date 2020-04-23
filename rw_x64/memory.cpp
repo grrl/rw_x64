@@ -2,6 +2,7 @@
 #include "memory.h"
 #include "w2s.h"
 #include "draw.h"
+
 QWORD get_local() {
 	return drv->RPM<QWORD>(drv->base + OFFSET_LOCAL_ENT);
 }
@@ -132,6 +133,7 @@ void entity_loop() {
 void __stdcall thread() {
 
 	while (true) {
+
 
 	}
 }
