@@ -73,13 +73,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	HWND MyWindowHwnd = FindWindowA(0, "Apex Legends");
 
+	/*
 	hnd = CreateThread(NULL, // security attributes ( default if NULL )
 		0, // stack SIZE default if 0
 		(LPTHREAD_START_ROUTINE)thread, // Start Address
 		NULL, // input data
 		0, // creational flag ( start if  0 )
 		&id); // thread ID
-
+	*/
 	RECT rect;
 	if (GetClientRect(MyWindowHwnd, &rect)) {
 		clientWidth = rect.right - rect.left;
