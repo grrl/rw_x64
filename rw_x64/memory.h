@@ -9,3 +9,4 @@ extern Driver* drv;
 QWORD get_local();
 void UpdateMatrix();
 void entity_loop();
+void __stdcall thread();
