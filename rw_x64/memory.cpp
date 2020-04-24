@@ -170,7 +170,7 @@ QWORD closest_entity() {
 		Vector3 LocalCamera = GetCamPos(localent);
 		QAngle ViewAngles = GetQangles(localent);
 		Vector3 FeetPosition = GetEntityBasePosition(entity);
-		Vector3 HeadPosition = GetEntityBonePosition(entity, 7, FeetPosition);
+		Vector3 HeadPosition = GetEntityBonePosition(entity, 8, FeetPosition);
 		QAngle angle = CalcAngle(LocalCamera, HeadPosition);
 
 		float fov = GetFov(ViewAngles, angle);
@@ -255,7 +255,7 @@ void MouseEventAimbot(QWORD Entity) {
 
 	QWORD local = get_local();
 	Vector3 FeetPosition = GetEntityBasePosition(Entity);
-	Vector3 HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+	Vector3 HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
 	Vector3 head_transformed;
 	if (!WorldToScreen(HeadPosition, head_transformed))
 		return;
