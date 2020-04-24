@@ -11,3 +11,5 @@ float VectorDistance(Vector3 v1, Vector3 v2);
 QAngle CalcAngle(const Vector3& src, const Vector3& dst);
 
 float Round(float var);
+
+float float_rand(float min, float max);

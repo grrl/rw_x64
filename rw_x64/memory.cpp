@@ -69,7 +69,7 @@ Vector3 GetEntityBasePosition(uintptr_t ent)
 {
 	return drv->RPM<Vector3>(ent + OFFSET_ORIGIN);
 }
-float smooth = 0.0f;
+float smooth = 0.f;
 
 void AimAtPos(float x, float y)
 {
@@ -79,6 +79,7 @@ void AimAtPos(float x, float y)
 	float TargetX = 0;
 	float TargetY = 0;
 	float AimSpeed = 1.0f;
+	smooth = float_rand(0.f, 1.f);
 	if (x != 0)
 	{
 		if (x > ScreenCenterX)
@@ -253,9 +254,54 @@ void MouseEventAimbot(QWORD Entity) {
 
 	//DWORD Entity = GetEntity(EntNum);
 
+	//8 head
+	//7 neck
+	//5 mid
 	QWORD local = get_local();
 	Vector3 FeetPosition = GetEntityBasePosition(Entity);
-	Vector3 HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+	Vector3 HeadPosition;
+	int randomNumber = (rand() % 10) + 1;
+
+	switch (randomNumber) {
+
+	case 1:
+		HeadPosition = GetEntityBonePosition(Entity, 62, FeetPosition);
+		break;
+	case 2:
+		HeadPosition = GetEntityBonePosition(Entity, 57, FeetPosition);
+		break;
+	case 3:
+		HeadPosition = GetEntityBonePosition(Entity, 2, FeetPosition);
+		break;
+	case 4:
+		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
+		break;
+	case 5:
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		break;
+	case 6:
+		HeadPosition = GetEntityBonePosition(Entity, 35, FeetPosition);
+		break;
+	case 7:
+		HeadPosition = GetEntityBonePosition(Entity, 37, FeetPosition);
+		break;
+	case 8:
+		HeadPosition = GetEntityBonePosition(Entity, 11, FeetPosition);
+		break;
+	case 9:
+		HeadPosition = GetEntityBonePosition(Entity, 13, FeetPosition);
+		break;
+	case 10:
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		break;
+	default:
+		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
+	}
+
+	HeadPosition.x += float_rand(-0.5, 0.5);
+	HeadPosition.y += float_rand(-0.5, 0.5);
+	HeadPosition.z += float_rand(-0.5, 0.5);
+
 	Vector3 head_transformed;
 	if (!WorldToScreen(HeadPosition, head_transformed))
 		return;
