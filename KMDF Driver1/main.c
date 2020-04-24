@@ -4,6 +4,7 @@
 #include "macro.h"
 #include "imports.h"
 #include "structs.h"
+#include "enum.h"
 
 PDEVICE_OBJECT pDeviceObject; // our driver object
 UNICODE_STRING dev, dos; // Driver registry paths
@@ -34,6 +35,62 @@ NTSTATUS KeWriteVirtualMemory(PEPROCESS Process, PVOID SourceAddress, PVOID Targ
 		return STATUS_ACCESS_DENIED;
 }
 
+NTSTATUS GetPid()
+{
+	// ZwQuery
+	ULONG CallBackLength = 0;
+	PSYSTEM_PROCESS_INFO PSI = NULL;
+	PSYSTEM_PROCESS_INFO pCurrent = NULL;
+	PVOID BufferPid = NULL;
+	NTSTATUS Status = STATUS_UNSUCCESSFUL;
+
+	// Names
+	PCWSTR R6 = L"r5apex.exe";
+	UNICODE_STRING uImageNameR6;
+	RtlInitUnicodeString(&uImageNameR6, R6);
+
+	if (!NT_SUCCESS(ZwQuerySystemInformation(SystemProcessInformation, NULL, NULL, &CallBackLength)))
+	{
+		BufferPid = ExAllocatePoolWithTag(NonPagedPool, CallBackLength, 0x616b7963); // aykc 
+		if (!BufferPid)
+		{
+			DbgPrintEx(0, 0, "Failed To Allocate Buffer Notify Routine");
+			return Status;
+		}
+
+		PSI = (PSYSTEM_PROCESS_INFO)BufferPid;
+		Status = ZwQuerySystemInformation(SystemProcessInformation, PSI, CallBackLength, NULL);
+		if (!NT_SUCCESS(Status))
+		{
+			DbgPrintEx(0, 0, "Failed To Get Query System Process Information List: %p", Status);
+			ExFreePoolWithTag(BufferPid, 0x616b7963);
+			return Status = STATUS_INFO_LENGTH_MISMATCH;
+		}
+		DbgPrintEx(0, 0, "\nSearching For PID...");
+		do
+		{
+			if (PSI->NextEntryOffset == 0)
+				break;
+
+			if (RtlEqualUnicodeString(&uImageNameR6, &PSI->ImageName, FALSE))
+			{
+				DbgPrintEx(0, 0, "PID %d | NAME %ws", PSI->ProcessId, PSI->ImageName.Buffer);
+				csgoId = PSI->ProcessId;
+				Status = STATUS_SUCCESS;
+				break;
+			}
+
+			PSI = (PSYSTEM_PROCESS_INFO)((unsigned char*)PSI + PSI->NextEntryOffset); // Calculate the address of the next entry.
+
+		} while (PSI->NextEntryOffset);
+
+		// Free Allocated Memory
+		ExFreePoolWithTag(BufferPid, 0x616b7963);
+	}
+
+	return Status;
+}
+
 
 QWORD GetSectionBaseAddress(HANDLE w_pid)
 {
@@ -62,6 +119,7 @@ QWORD GetSectionBaseAddress(HANDLE w_pid)
 
 // set a callback for every PE image loaded to user memory
 // then find the client.dll & csgo.exe using the callback
+/*
 PLOAD_IMAGE_NOTIFY_ROUTINE ImageLoadCallback(PUNICODE_STRING FullImageName,
 	HANDLE ProcessId, PIMAGE_INFO ImageInfo)
 {
@@ -75,7 +133,7 @@ PLOAD_IMAGE_NOTIFY_ROUTINE ImageLoadCallback(PUNICODE_STRING FullImageName,
 		ClientAddress = GetSectionBaseAddress(ProcessId);
 	}
 }
-
+*/
 
 // IOCTL Call Handler function
 NTSTATUS IoControl(PDEVICE_OBJECT DeviceObject, PIRP Irp)
@@ -124,15 +182,23 @@ NTSTATUS IoControl(PDEVICE_OBJECT DeviceObject, PIRP Irp)
 	}
 	else if (ControlCode == ID)
 	{
-		PULONG OutPut = (PULONG)Irp->AssociatedIrp.SystemBuffer;
-		*OutPut = csgoId;
 
-		DbgPrintEx(0, 0, "id get %#010x", csgoId);
-		Status = STATUS_SUCCESS;
-		BytesIO = sizeof(*OutPut);
+		NTSTATUS pidStatus = STATUS_SUCCESS;
+
+		pidStatus = GetPid();
+
+		if (pidStatus == STATUS_SUCCESS) {
+			PULONG OutPut = (PULONG)Irp->AssociatedIrp.SystemBuffer;
+			*OutPut = csgoId;
+
+			DbgPrintEx(0, 0, "id get %#010x", csgoId);
+			Status = STATUS_SUCCESS;
+			BytesIO = sizeof(*OutPut);
+		}
 	}
 	else if (ControlCode == MODULE)
 	{
+		ClientAddress = GetSectionBaseAddress(csgoId);
 		PULONGLONG OutPut = (PULONGLONG)Irp->AssociatedIrp.SystemBuffer;
 		*OutPut = ClientAddress;
 
@@ -161,7 +227,7 @@ NTSTATUS DriverEntry(PDRIVER_OBJECT pDriverObject,
 {
 	DbgPrintEx(0, 0, "Driver Loaded\n");
 
-	PsSetLoadImageNotifyRoutine(ImageLoadCallback);
+	//PsSetLoadImageNotifyRoutine(ImageLoadCallback);
 
 	RtlInitUnicodeString(&dev, L"\\Device\\neet");
 	RtlInitUnicodeString(&dos, L"\\DosDevices\\neet");
@@ -186,7 +252,7 @@ NTSTATUS UnloadDriver(PDRIVER_OBJECT pDriverObject)
 {
 	DbgPrintEx(0, 0, "Unload routine called.\n");
 
-	PsRemoveLoadImageNotifyRoutine(ImageLoadCallback);
+	//PsRemoveLoadImageNotifyRoutine(ImageLoadCallback);
 	IoDeleteSymbolicLink(&dos);
 	IoDeleteDevice(pDriverObject->DeviceObject);
 }

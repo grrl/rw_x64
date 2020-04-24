@@ -155,6 +155,7 @@
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="enum.h" />
     <ClInclude Include="imports.h" />
     <ClInclude Include="macro.h" />
     <ClInclude Include="structs.h" />
