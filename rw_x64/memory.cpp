@@ -260,47 +260,22 @@ void MouseEventAimbot(QWORD Entity) {
 	QWORD local = get_local();
 	Vector3 FeetPosition = GetEntityBasePosition(Entity);
 	Vector3 HeadPosition;
-	int randomNumber = (rand() % 10) + 1;
+	int randomNumber = (rand() % 2) + 1;
 
 	switch (randomNumber) {
 	case 1:
 		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
 		break;
 	case 2:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
-		break;
-	case 3:
 		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
 		break;
-	case 4:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
-		break;
-	case 5:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
-		break;
-	case 6:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
-		break;
-	case 7:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
-		break;
-	case 8:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
-		break;
-	case 9:
-		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
-		break;
-	case 10:
-		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
-		break;
-		
 	default:
 		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
 	}
 
-	HeadPosition.x += float_rand(-0.05, 0.05);
-	HeadPosition.y += float_rand(-0.05, 0.05);
-	HeadPosition.z += float_rand(-0.05, 0.05);
+	HeadPosition.x += float_rand(-0.025, 0.025);
+	HeadPosition.y += float_rand(-0.025, 0.025);
+	HeadPosition.z += float_rand(-0.025, 0.025);
 
 	Vector3 head_transformed;
 	if (!WorldToScreen(HeadPosition, head_transformed))
@@ -410,6 +385,10 @@ void entity_loop() {
 		float gEn = 0;
 		float bEn = 0;
 		float aEn = 1;
+
+		if (dist <= 200.f)
+			DrawLine(clientWidth / 2, clientHeight / 2, entity_transformed.x, entityhead_transformed.y, 57, 255, 20, 255);
+
 		DrawLine(entity_transformed.x - Height / 4, entityhead_transformed.y, entity_transformed.x - Height / 4, entityhead_transformed.y - Height / 5, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
 		DrawLine(entity_transformed.x - Height / 4, entity_transformed.y, entity_transformed.x - Height / 4, entity_transformed.y + Height / 5, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
 
