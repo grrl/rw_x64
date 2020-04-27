@@ -13,3 +13,7 @@ QAngle CalcAngle(const Vector3& src, const Vector3& dst);
 float Round(float var);
 
 float float_rand(float min, float max);
+
+float FastSQRT(float x);
+
+float Dist3D(const Vector3& Src, const Vector3& Dst);

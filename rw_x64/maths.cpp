@@ -39,6 +39,18 @@ float VectorDistance(Vector3 v1, Vector3 v2)
 
 }
 
+float FastSQRT(float x)
+{
+	union { int i; float x; } u;
+	u.x = x; u.i = (u.i >> 1) + 0x1FC00000;
+	u.x = u.x + x / u.x; return .25f * u.x + x / u.x;
+}
+
+float Dist3D(const Vector3& Src, const Vector3& Dst)
+{
+	return FastSQRT(powf(Src.x - Dst.x, 2.f) + powf(Src.y - Dst.y, 2.f) + powf(Src.z - Dst.z, 2.f));
+}
+
 QAngle CalcAngle(const Vector3& src, const Vector3& dst)
 {
 	QAngle srca = { src.x, src.y, src.z };

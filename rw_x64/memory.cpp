@@ -144,6 +144,33 @@ void AimAtPos(float x, float y)
 	mouse_event(0x0001, TargetX, TargetY, NULL, NULL);
 }
 
+QWORD active_weapon(QWORD local)
+{
+	QWORD ActWeaponId = drv->RPM<QWORD>(local + OFFSET_WEAPON) & 0xFFFF;
+	if (ActWeaponId)
+	{
+		QWORD entitylist = drv->base + OFFSET_ENTITYLIST;
+		QWORD pweapon = drv->RPM<QWORD>(drv->base + entitylist + (ActWeaponId << 5));
+		return pweapon;
+	}
+	return 0;
+}
+
+float bullet_speed(QWORD weapon)
+{
+	return drv->RPM<float>(weapon + OFFSET_BULLETSPEED);
+}
+
+float bullet_gravity(QWORD weapon)
+{
+	return drv->RPM<float>(weapon + OFFSET_BULLETGRAVITY);
+}
+
+Vector3 Velocity(QWORD Entity)
+{
+	return drv->RPM<Vector3>(Entity + OFFSET_ABSVELOCITY);
+}
+
 QWORD closest_entity() {
 
 	Vector3 vec = { 0, 0, 0 };
@@ -277,6 +304,37 @@ void MouseEventAimbot(QWORD Entity) {
 	HeadPosition.y += float_rand(-0.025, 0.025);
 	HeadPosition.z += float_rand(-0.025, 0.025);
 
+
+	QWORD active = active_weapon();
+	bool velocity = true;
+	bool gravity = true;
+
+	if (active)
+	{
+		float BulletSpeed = bullet_speed(active);
+		float BulletGrav = bullet_gravity(active);
+
+		if (BulletSpeed > 1.f)
+		{
+			Vector3 localfeet = GetEntityBasePosition(local);
+			Vector3 muzzle = GetEntityBonePosition(local, 8, FeetPosition);
+
+			if (gravity)
+			{
+				float VerticalTime = Dist3D(HeadPosition, muzzle) / BulletSpeed;
+				HeadPosition.z += (750.f * BulletGrav * 0.5f) * (VerticalTime * VerticalTime);
+				std::cout << "muzzle " << muzzle.x << " " << muzzle.y << " " << muzzle.z << " vertical time " << VerticalTime << " bullet speed " << BulletSpeed << " bullet grav " << BulletGrav << "\n";
+			}
+			if (velocity)
+			{
+				float HorizontalTime = Dist3D(HeadPosition, muzzle) / BulletSpeed;
+				HeadPosition.x += (Velocity(Entity).x * HorizontalTime);
+				HeadPosition.y += (Velocity(Entity).y * HorizontalTime);
+			}
+
+		}
+	}
+
 	Vector3 head_transformed;
 	if (!WorldToScreen(HeadPosition, head_transformed))
 		return;
@@ -292,7 +350,7 @@ void MouseEventAimbot(QWORD Entity) {
 	float radiusy = (fov) * (center_screen.y / 100.0f);
 
 	if (Aimpos.x >= center_screen.x - radiusx && Aimpos.x <= center_screen.x + radiusx && Aimpos.y >= center_screen.y - radiusy && Aimpos.y <= center_screen.y + radiusy) {
-		std::cout << "aiming" << "\n";
+		//std::cout << "aiming" << "\n";
 		if (GetAsyncKeyState(VK_XBUTTON1) & 0x8000)
 			AimAtPos(Aimpos.x, Aimpos.y);
 
@@ -360,7 +418,7 @@ void entity_loop() {
 			continue;
 
 		if (closest == entity) {
-			std::cout << "same " << closest << "\n";
+			//std::cout << "same " << closest << "\n";
 			MouseEventAimbot(closest);
 		}
 

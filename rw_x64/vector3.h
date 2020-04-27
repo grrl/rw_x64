@@ -1,5 +1,7 @@
 #pragma once
 
+#define CHECK_VALID( _v ) 0
+
 class Vector3
 {
 public:
