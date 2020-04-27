@@ -305,7 +305,7 @@ void MouseEventAimbot(QWORD Entity) {
 	HeadPosition.z += float_rand(-0.025, 0.025);
 
 
-	QWORD active = active_weapon();
+	QWORD active = active_weapon(local);
 	bool velocity = true;
 	bool gravity = true;
 
