@@ -150,7 +150,7 @@ QWORD active_weapon(QWORD local)
 	if (ActWeaponId)
 	{
 		QWORD entitylist = drv->base + OFFSET_ENTITYLIST;
-		QWORD pweapon = drv->RPM<QWORD>(drv->base + entitylist + (ActWeaponId << 5));
+		QWORD pweapon = drv->RPM<QWORD>(entitylist + (ActWeaponId << 5));
 		return pweapon;
 	}
 	return 0;
@@ -287,22 +287,46 @@ void MouseEventAimbot(QWORD Entity) {
 	QWORD local = get_local();
 	Vector3 FeetPosition = GetEntityBasePosition(Entity);
 	Vector3 HeadPosition;
-	int randomNumber = (rand() % 2) + 1;
+	int randomNumber = (rand() % 10) + 1;
 
 	switch (randomNumber) {
 	case 1:
 		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
 		break;
 	case 2:
+		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		break;
+	case 3:
 		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		break;
+	case 4:
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		break;
+	case 5:
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		break;
+	case 6:
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		break;
+	case 7:
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		break;
+	case 8:
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		break;
+	case 9:
+		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
+		break;
+	case 10:
+		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
 		break;
 	default:
 		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
 	}
 
-	HeadPosition.x += float_rand(-0.025, 0.025);
-	HeadPosition.y += float_rand(-0.025, 0.025);
-	HeadPosition.z += float_rand(-0.025, 0.025);
+	HeadPosition.x += float_rand(-0.5, 0.5);
+	HeadPosition.y += float_rand(-0.5, 0.5);
+	HeadPosition.z += float_rand(-0.5, 0.5);
 
 
 	QWORD active = active_weapon(local);
@@ -313,12 +337,13 @@ void MouseEventAimbot(QWORD Entity) {
 	{
 		float BulletSpeed = bullet_speed(active);
 		float BulletGrav = bullet_gravity(active);
-
+		std::cout << "weapon ok " << "\n";
 		if (BulletSpeed > 1.f)
 		{
 			Vector3 localfeet = GetEntityBasePosition(local);
 			Vector3 muzzle = GetEntityBonePosition(local, 8, FeetPosition);
 
+			std::cout << "bullet ok " << "\n";
 			if (gravity)
 			{
 				float VerticalTime = Dist3D(HeadPosition, muzzle) / BulletSpeed;
@@ -328,6 +353,7 @@ void MouseEventAimbot(QWORD Entity) {
 			if (velocity)
 			{
 				float HorizontalTime = Dist3D(HeadPosition, muzzle) / BulletSpeed;
+				std::cout << "horiziontaltime " << HorizontalTime << "\n";
 				HeadPosition.x += (Velocity(Entity).x * HorizontalTime);
 				HeadPosition.y += (Velocity(Entity).y * HorizontalTime);
 			}
