@@ -402,8 +402,8 @@ void entity_loop() {
 		int enemyteam = drv->RPM<int>(entity + OFFSET_TEAM);
 		int localTeam = drv->RPM<int>(local + OFFSET_TEAM);
 
-		if (enemyteam == localTeam)
-			continue;
+		//if (enemyteam == localTeam)
+		//	continue;
 
 		//std::cout << "local " << local << "\n";
 		Vector3 vec = drv->RPM<Vector3>(local + OFFSET_ORIGIN);
@@ -427,7 +427,7 @@ void entity_loop() {
 
 		float dist = VectorDistance(vec, entity_pos);
 
-		if (dist >= 400.f)
+		if (dist >= 400.f && enemyteam != localTeam)
 			continue;
 
 		Vector3 entityhead = entity_pos;
@@ -451,55 +451,108 @@ void entity_loop() {
 		float Height = entityhead_transformed.y - entity_transformed.y;
 		float delta = (Height / 100.0f) * health;
 
-		if (health > 75)
-			DrawHealthBar((entity_transformed.x - Height / 4) + 3, entity_transformed.y, 3, delta, 57, 255, 20, 255);
-		else if (health > 50)
-			DrawHealthBar((entity_transformed.x - Height / 4) + 3, entity_transformed.y, 3, delta, 255, 255, 0, 255);
-		else if (health > 25)
-			DrawHealthBar((entity_transformed.x - Height / 4) + 3, entity_transformed.y, 3, delta, 255, 102, 0, 255);
-		else
-			DrawHealthBar((entity_transformed.x - Height / 4) + 3, entity_transformed.y, 3, delta, 255, 0, 0, 255);
+		if (enemyteam == localTeam) {
 
-		float armor = GetEntityArmor(entity);
-		float armordelta = (Height / 100.0f) * armor;
-		if (armor > 0)
-			DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 77, 149, 255, 255/*102, 255, 255*/);
+			if (health > 75)
+				DrawHealthBar((entity_transformed.x - Height / 4) + 3, entity_transformed.y, 3, delta, 57, 255, 20, 255);
+			else if (health > 50)
+				DrawHealthBar((entity_transformed.x - Height / 4) + 3, entity_transformed.y, 3, delta, 255, 255, 0, 255);
+			else if (health > 25)
+				DrawHealthBar((entity_transformed.x - Height / 4) + 3, entity_transformed.y, 3, delta, 255, 102, 0, 255);
+			else
+				DrawHealthBar((entity_transformed.x - Height / 4) + 3, entity_transformed.y, 3, delta, 255, 0, 0, 255);
 
-		float rEn = 1;
-		float gEn = 0;
-		float bEn = 0;
-		float aEn = 1;
+			float armor = GetEntityArmor(entity);
+			float armordelta = (Height / 100.0f) * armor;
+			if (armor > 0)
+				DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 77, 149, 255, 255/*102, 255, 255*/);
 
-		if (dist <= 200.f)
-			DrawLine(clientWidth / 2, clientHeight / 2, entity_transformed.x, entityhead_transformed.y, 57, 255, 20, 255);
+			float rMy = 0.392;
+			float gMy = 0.584;
+			float bMy = 0.930;
+			float aMy = 1;
 
-		DrawLine(entity_transformed.x - Height / 4, entityhead_transformed.y, entity_transformed.x - Height / 4, entityhead_transformed.y - Height / 5, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
-		DrawLine(entity_transformed.x - Height / 4, entity_transformed.y, entity_transformed.x - Height / 4, entity_transformed.y + Height / 5, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
+			if (dist <= 200.f)
+				DrawLine(clientWidth / 2, clientHeight / 2, entity_transformed.x, entityhead_transformed.y, 57, 255, 20, 255);
 
-		DrawLine(entity_transformed.x + Height / 4, entityhead_transformed.y, entity_transformed.x + Height / 4, entityhead_transformed.y - Height / 5, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
-		DrawLine(entity_transformed.x + Height / 4, entity_transformed.y, entity_transformed.x + Height / 4, entity_transformed.y + Height / 5, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
+			DrawLine(entity_transformed.x - Height / 4, entityhead_transformed.y, entity_transformed.x - Height / 4, entityhead_transformed.y - Height / 5, rMy * 255, gMy * 255, bMy * 255, aMy * 255);
+			DrawLine(entity_transformed.x - Height / 4, entity_transformed.y, entity_transformed.x - Height / 4, entity_transformed.y + Height / 5, rMy * 255, gMy * 255, bMy * 255, aMy * 255);
 
-		DrawLine(entity_transformed.x - Height / 4, entityhead_transformed.y, entity_transformed.x - Height / 16, entityhead_transformed.y, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
-		DrawLine(entity_transformed.x + Height / 4, entityhead_transformed.y, entity_transformed.x + Height / 16, entityhead_transformed.y, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
+			DrawLine(entity_transformed.x + Height / 4, entityhead_transformed.y, entity_transformed.x + Height / 4, entityhead_transformed.y - Height / 5, rMy * 255, gMy * 255, bMy * 255, aMy * 255);
+			DrawLine(entity_transformed.x + Height / 4, entity_transformed.y, entity_transformed.x + Height / 4, entity_transformed.y + Height / 5, rMy * 255, gMy * 255, bMy * 255, aMy * 255);
 
-		DrawLine(entity_transformed.x - Height / 4, entity_transformed.y, entity_transformed.x - Height / 16, entity_transformed.y, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
-		DrawLine(entity_transformed.x + Height / 4, entity_transformed.y, entity_transformed.x + Height / 16, entity_transformed.y, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
+			DrawLine(entity_transformed.x - Height / 4, entityhead_transformed.y, entity_transformed.x - Height / 16, entityhead_transformed.y, rMy * 255, gMy * 255, bMy * 255, aMy * 255);
+			DrawLine(entity_transformed.x + Height / 4, entityhead_transformed.y, entity_transformed.x + Height / 16, entityhead_transformed.y, rMy * 255, gMy * 255, bMy * 255, aMy * 255);
 
-		char buffer[5];
-		char buffer2[4];
-		//double dist2 = dist >= 0. ? floor(dist*100.) / 100. : ceil(dist*100.) / 100.;
-		int ret = snprintf(buffer, sizeof buffer, "%f", Round(dist));
-		int ret2 = snprintf(buffer2, sizeof buffer2, "%f", health);
-		//printf("%d\n", dist);
-		char printChar1[2] = "[";
-		char printChar2[4] = "m] ";
-		char result[15];   // array to hold the result.
+			DrawLine(entity_transformed.x - Height / 4, entity_transformed.y, entity_transformed.x - Height / 16, entity_transformed.y, rMy * 255, gMy * 255, bMy * 255, aMy * 255);
+			DrawLine(entity_transformed.x + Height / 4, entity_transformed.y, entity_transformed.x + Height / 16, entity_transformed.y, rMy * 255, gMy * 255, bMy * 255, aMy * 255);
 
-		strcpy(result, printChar1); // copy string one into the result.
-		strcat(result, buffer); // append string two to the result.
-		strcat(result, printChar2); // append string two to the result.
-		strcat(result, buffer2); // append string two to the result.
-		DrawShadowString(result, entity_transformed.x, entity_transformed.y, 255, 255, 255, dx_FontCalibri);
+			char buffer[5];
+			char buffer2[4];
+			//double dist2 = dist >= 0. ? floor(dist*100.) / 100. : ceil(dist*100.) / 100.;
+			int ret = snprintf(buffer, sizeof buffer, "%f", Round(dist));
+			int ret2 = snprintf(buffer2, sizeof buffer2, "%f", health);
+			//printf("%d\n", dist);
+			char printChar1[2] = "[";
+			char printChar2[4] = "m] ";
+			char result[15];   // array to hold the result.
+
+			strcpy(result, printChar1); // copy string one into the result.
+			strcat(result, buffer); // append string two to the result.
+			strcat(result, printChar2); // append string two to the result.
+			strcat(result, buffer2); // append string two to the result.
+			DrawShadowString(result, entity_transformed.x, entity_transformed.y, 255, 255, 255, dx_FontCalibri);
+
+		}
+		else {
+
+			if (health > 75)
+				DrawHealthBar((entity_transformed.x - Height / 4) + 3, entity_transformed.y, 3, delta, 57, 255, 20, 255);
+			else if (health > 50)
+				DrawHealthBar((entity_transformed.x - Height / 4) + 3, entity_transformed.y, 3, delta, 255, 255, 0, 255);
+			else if (health > 25)
+				DrawHealthBar((entity_transformed.x - Height / 4) + 3, entity_transformed.y, 3, delta, 255, 102, 0, 255);
+			else
+				DrawHealthBar((entity_transformed.x - Height / 4) + 3, entity_transformed.y, 3, delta, 255, 0, 0, 255);
+
+			float armor = GetEntityArmor(entity);
+			float armordelta = (Height / 100.0f) * armor;
+			if (armor > 0)
+				DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 77, 149, 255, 255/*102, 255, 255*/);
+
+			float rEn = 1;
+			float gEn = 0;
+			float bEn = 0;
+			float aEn = 1;
+
+			DrawLine(entity_transformed.x - Height / 4, entityhead_transformed.y, entity_transformed.x - Height / 4, entityhead_transformed.y - Height / 5, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
+			DrawLine(entity_transformed.x - Height / 4, entity_transformed.y, entity_transformed.x - Height / 4, entity_transformed.y + Height / 5, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
+
+			DrawLine(entity_transformed.x + Height / 4, entityhead_transformed.y, entity_transformed.x + Height / 4, entityhead_transformed.y - Height / 5, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
+			DrawLine(entity_transformed.x + Height / 4, entity_transformed.y, entity_transformed.x + Height / 4, entity_transformed.y + Height / 5, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
+
+			DrawLine(entity_transformed.x - Height / 4, entityhead_transformed.y, entity_transformed.x - Height / 16, entityhead_transformed.y, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
+			DrawLine(entity_transformed.x + Height / 4, entityhead_transformed.y, entity_transformed.x + Height / 16, entityhead_transformed.y, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
+
+			DrawLine(entity_transformed.x - Height / 4, entity_transformed.y, entity_transformed.x - Height / 16, entity_transformed.y, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
+			DrawLine(entity_transformed.x + Height / 4, entity_transformed.y, entity_transformed.x + Height / 16, entity_transformed.y, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
+
+			char buffer[5];
+			char buffer2[4];
+			//double dist2 = dist >= 0. ? floor(dist*100.) / 100. : ceil(dist*100.) / 100.;
+			int ret = snprintf(buffer, sizeof buffer, "%f", Round(dist));
+			int ret2 = snprintf(buffer2, sizeof buffer2, "%f", health);
+			//printf("%d\n", dist);
+			char printChar1[2] = "[";
+			char printChar2[4] = "m] ";
+			char result[15];   // array to hold the result.
+
+			strcpy(result, printChar1); // copy string one into the result.
+			strcat(result, buffer); // append string two to the result.
+			strcat(result, printChar2); // append string two to the result.
+			strcat(result, buffer2); // append string two to the result.
+			DrawShadowString(result, entity_transformed.x, entity_transformed.y, 255, 255, 255, dx_FontCalibri);
+		}
 	}
 }
 
