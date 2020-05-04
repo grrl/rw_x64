@@ -427,7 +427,7 @@ void entity_loop() {
 
 		float dist = VectorDistance(vec, entity_pos);
 
-		if (dist >= 400.f && enemyteam != localTeam)
+		if (dist >= 400.f)
 			continue;
 
 		Vector3 entityhead = entity_pos;
@@ -471,9 +471,6 @@ void entity_loop() {
 			float gMy = 0.584;
 			float bMy = 0.930;
 			float aMy = 1;
-
-			if (dist <= 200.f)
-				DrawLine(clientWidth / 2, clientHeight / 2, entity_transformed.x, entityhead_transformed.y, 57, 255, 20, 255);
 
 			DrawLine(entity_transformed.x - Height / 4, entityhead_transformed.y, entity_transformed.x - Height / 4, entityhead_transformed.y - Height / 5, rMy * 255, gMy * 255, bMy * 255, aMy * 255);
 			DrawLine(entity_transformed.x - Height / 4, entity_transformed.y, entity_transformed.x - Height / 4, entity_transformed.y + Height / 5, rMy * 255, gMy * 255, bMy * 255, aMy * 255);
@@ -524,6 +521,10 @@ void entity_loop() {
 			float gEn = 0;
 			float bEn = 0;
 			float aEn = 1;
+
+			if (dist <= 200.f)
+				DrawLine(clientWidth / 2, clientHeight / 2, entity_transformed.x, entityhead_transformed.y, 57, 255, 20, 255);
+
 
 			DrawLine(entity_transformed.x - Height / 4, entityhead_transformed.y, entity_transformed.x - Height / 4, entityhead_transformed.y - Height / 5, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
 			DrawLine(entity_transformed.x - Height / 4, entity_transformed.y, entity_transformed.x - Height / 4, entity_transformed.y + Height / 5, rEn * 255, gEn * 255, bEn * 255, aEn * 255);
