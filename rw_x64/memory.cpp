@@ -400,7 +400,7 @@ void MouseEventAimbot(QWORD Entity) {
 	default:
 		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
 	}
-
+	//push
 	HeadPosition.x += float_rand(-0.3, 0.3);
 	HeadPosition.y += float_rand(-0.3, 0.3);
 	HeadPosition.z += float_rand(-0.3, 0.3);
