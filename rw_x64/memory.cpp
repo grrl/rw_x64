@@ -24,6 +24,10 @@ int GetEntityArmor(QWORD Entity) {
 	return drv->RPM<int>(Entity + OFFSET_SHIELD);
 }
 
+int GetArmorType(QWORD Entity) {
+	return drv->RPM<int>(Entity + OFFSET_SHIELD + 0x4);
+}
+
 QWORD GetEntityBoneArray(QWORD ent)
 {
 	return drv->RPM<QWORD>(ent + OFFSET_BONES);
@@ -79,7 +83,7 @@ void AimAtPos(float x, float y)
 	float TargetX = 0;
 	float TargetY = 0;
 	float AimSpeed = 1.0f;
-	smooth = float_rand(0.f, 1.f);
+	smooth = float_rand(0.f, 0.3f);
 	if (x != 0)
 	{
 		if (x > ScreenCenterX)
@@ -368,34 +372,34 @@ void MouseEventAimbot(QWORD Entity) {
 
 	switch (randomNumber) {
 	case 1:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 2:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 3:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 4:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 5:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 6:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 7:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 8:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 9:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
 		break;
 	case 10:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
 		break;
 	default:
 		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
@@ -580,6 +584,17 @@ void entity_loop() {
 		}
 		else {
 
+			/*
+			int32_t armorType = RPM<int32_t>(curEntity + 0x3d00);
+			Code:
+			0 - No Armor
+			1 - Armor Lvl 1
+			2 - Armor Lvl 2 (Blue)
+			3 - Armor Lvl 3 (Purple)
+			4 - Armor Lvl 4 (Gold)
+			*/
+
+
 			if (health > 75)
 				DrawHealthBar((entity_transformed.x - Height / 4) + 3, entity_transformed.y, 3, delta, 57, 255, 20, 255);
 			else if (health > 50)
@@ -591,8 +606,33 @@ void entity_loop() {
 
 			float armor = GetEntityArmor(entity);
 			float armordelta = (Height / 100.0f) * armor;
-			if (armor > 0)
-				DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 77, 149, 255, 255/*102, 255, 255*/);
+
+			if (armor > 0) {
+				int armortmax = GetArmorType(entity);
+				//std::cout << "armor is " << armortmax << "\n";
+				switch (armortmax) {
+				case 50:
+					DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 255, 255, 255, 255/*102, 255, 255*/);
+					break;
+				case 75:
+					DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 77, 5, 232, 255/*102, 255, 255*/);
+					break;
+				case 100:
+					DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 191, 85, 236, 255/*102, 255, 255*/);
+					break;
+				/*
+				case 4:
+					DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 255, 255, 126, 255);
+					break;
+				*/
+				default:
+					DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 240, 52, 52, 255/*102, 255, 255*/);
+					break;
+				}
+
+				//DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 77, 149, 255, 255/*102, 255, 255*/);
+
+			}
 
 			float rEn = 1;
 			float gEn = 0;
