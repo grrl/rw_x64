@@ -83,7 +83,7 @@ void AimAtPos(float x, float y)
 	float TargetX = 0;
 	float TargetY = 0;
 	float AimSpeed = 1.0f;
-	smooth = float_rand(0.f, 0.8f);
+	smooth = float_rand(0.f, 0.9f);
 	if (x != 0)
 	{
 		if (x > ScreenCenterX)
@@ -375,19 +375,19 @@ void MouseEventAimbot(QWORD Entity) {
 		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
 		break;
 	case 2:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
 		break;
 	case 3:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
 		break;
 	case 4:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
 		break;
 	case 5:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
 		break;
 	case 6:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
 		break;
 	case 7:
 		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
@@ -405,9 +405,9 @@ void MouseEventAimbot(QWORD Entity) {
 		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
 	}
 
-	HeadPosition.x += float_rand(-0.30, 0.30);
-	HeadPosition.y += float_rand(-0.30, 0.30);
-	HeadPosition.z += float_rand(-0.30, 0.30);
+	HeadPosition.x += float_rand(-0.35, 0.35);
+	HeadPosition.y += float_rand(-0.35, 0.35);
+	HeadPosition.z += float_rand(-0.35, 0.35);
 
 
 	QWORD active = active_weapon(local);
