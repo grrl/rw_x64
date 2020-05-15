@@ -73,8 +73,9 @@ Vector3 GetEntityBasePosition(uintptr_t ent)
 {
 	return drv->RPM<Vector3>(ent + OFFSET_ORIGIN);
 }
-float smooth = 0.f;
+//float smooth = 0.f;
 
+bool smooth = true;
 void AimAtPos(float x, float y)
 {
 	//By fredaikis
@@ -83,7 +84,7 @@ void AimAtPos(float x, float y)
 	float TargetX = 0;
 	float TargetY = 0;
 	float AimSpeed = 1.0f;
-	smooth = float_rand(0.f, 0.8f);
+	//smooth = float_rand(0.f, 0.8f);
 	if (x != 0)
 	{
 		if (x > ScreenCenterX)
@@ -375,31 +376,31 @@ void MouseEventAimbot(QWORD Entity) {
 		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
 		break;
 	case 2:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
 		break;
 	case 3:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 4:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 5:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 6:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 7:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
 		break;
 	case 8:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
 		break;
 	case 9:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
 		break;
 	case 10:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
 		break;
 	default:
 		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
