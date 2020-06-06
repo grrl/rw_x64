@@ -33,6 +33,32 @@ QWORD GetEntityBoneArray(QWORD ent)
 	return drv->RPM<QWORD>(ent + OFFSET_BONES);
 }
 
+void write_glow(QWORD Entity) {
+	drv->WPM(Entity + 0x380, true); // Enabling the Glow
+	drv->WPM(Entity + 0x310, 1); // Enabling the Glow
+	drv->WPM(Entity + 0x1B8, 255.f); // Setting a value for the Color Red between 0 and 255
+	drv->WPM(Entity + 0x1B8 + 0x4, 0.f); // Setting a value for the Color Green between 0 and 255
+	drv->WPM(Entity + 0x1B8 + 0x8, 0.f); // Setting a value for the Color Blue between 0 and 255
+
+	for (int offset = 0x2D0; offset <= 0x2FC; offset += 0x4) //Setting the of the Glow at all necessary spots
+		drv->WPM(Entity + offset, FLT_MAX); // Setting the time of the Glow to be the Max Float value so it never runs out
+
+	drv->WPM(Entity + 0x278, FLT_MAX); //Set the Distance of the Glow to Max float value so we can see a long Distance
+}
+
+void write_glow_team(QWORD Entity) {
+	drv->WPM(Entity + 0x380, true); // Enabling the Glow
+	drv->WPM(Entity + 0x310, 1); // Enabling the Glow
+	drv->WPM(Entity + 0x1D0, 0.f); // Setting a value for the Color Red between 0 and 255
+	drv->WPM(Entity + 0x1D0 + 0x4, 0.f); // Setting a value for the Color Green between 0 and 255
+	drv->WPM(Entity + 0x1D0 + 0x8, 255.f); // Setting a value for the Color Blue between 0 and 255
+
+	for (int offset = 0x2D0; offset <= 0x2FC; offset += 0x4) //Setting the of the Glow at all necessary spots
+		drv->WPM(Entity + offset, FLT_MAX); // Setting the time of the Glow to be the Max Float value so it never runs out
+
+	drv->WPM(Entity + 0x278, FLT_MAX); //Set the Distance of the Glow to Max float value so we can see a long Distance
+}
+
 Vector3 GetEntityBonePosition(QWORD ent, DWORD BoneId, Vector3 BasePosition)
 {
 	QWORD pBoneArray = GetEntityBoneArray(ent);
@@ -582,6 +608,7 @@ void entity_loop() {
 			strcat(result, buffer2); // append string two to the result.
 			DrawShadowString(result, entity_transformed.x, entity_transformed.y, 255, 255, 255, dx_FontCalibri);
 
+			//write_glow_team(entity);
 		}
 		else {
 
@@ -671,6 +698,8 @@ void entity_loop() {
 			strcat(result, printChar2); // append string two to the result.
 			strcat(result, buffer2); // append string two to the result.
 			DrawShadowString(result, entity_transformed.x, entity_transformed.y, 255, 255, 255, dx_FontCalibri);
+
+			//write_glow(entity);
 		}
 	}
 }
