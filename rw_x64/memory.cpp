@@ -28,6 +28,16 @@ int GetArmorType(QWORD Entity) {
 	return drv->RPM<int>(Entity + OFFSET_SHIELD + 0x4);
 }
 
+bool is_knocked(QWORD Entity) {
+
+	int bleedout = drv->RPM<int>(Entity + OFFSET_BLEEDOUTSTATE);
+
+	if (bleedout != 0)
+		return true;
+
+	return false;
+}
+
 QWORD GetEntityBoneArray(QWORD ent)
 {
 	return drv->RPM<QWORD>(ent + OFFSET_BONES);
@@ -552,8 +562,11 @@ void entity_loop() {
 			continue;
 
 		if (closest == entity) {
+
 			//std::cout << "same " << closest << "\n";
-			MouseEventAimbot(closest);
+
+			if (!is_knocked(entity))
+				MouseEventAimbot(closest);
 		}
 
 		float Height = entityhead_transformed.y - entity_transformed.y;
@@ -698,6 +711,9 @@ void entity_loop() {
 			strcat(result, printChar2); // append string two to the result.
 			strcat(result, buffer2); // append string two to the result.
 			DrawShadowString(result, entity_transformed.x, entity_transformed.y, 255, 255, 255, dx_FontCalibri);
+
+			if (is_knocked(entity))
+				DrawString((char*)"Knocked", entity_transformed.x, entityhead_transformed.y + Height, 255, 0, 0, dx_FontCalibri);
 
 			//write_glow(entity);
 		}
