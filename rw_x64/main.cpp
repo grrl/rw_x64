@@ -193,6 +193,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	return 0;
 }
 
+bool onKillDowned;
 
 int render() {
 
@@ -214,9 +215,17 @@ int render() {
 		char stamp[256] = "äOêl ";
 		strcat(stamp, dt);
 		DrawString(stamp, 10, 10, 255, 0, 255, dx_FontCalibri); // Put Main procedure here like ESP etc.
+
+		if (onKillDowned)
+			DrawString((char*)"Killing downeds", 10, 20, 255, 0, 255, dx_FontCalibri); // Put Main procedure here like ESP etc.
 	}
 
 	//w2s.Update();
+
+	if (GetAsyncKeyState(VK_NUMPAD0) & 0x8000) {
+		onKillDowned ^= true;
+		Sleep(200);
+	}
 
 
 	if (GetAsyncKeyState(VK_INSERT) & 0x8000) {

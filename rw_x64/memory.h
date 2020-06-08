@@ -5,7 +5,7 @@
 
 
 extern Driver* drv;
-
+extern bool onKillDowned;
 QWORD get_local();
 void UpdateMatrix();
 void entity_loop();
