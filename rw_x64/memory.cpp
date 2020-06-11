@@ -119,7 +119,7 @@ void AimAtPos(float x, float y)
 	float ScreenCenterY = (clientHeight / 2);
 	float TargetX = 0;
 	float TargetY = 0;
-	float AimSpeed = 4.0f;
+	float AimSpeed = 10.0f;
 	//smooth = float_rand(0.f, 0.8f);
 	if (x != 0)
 	{
