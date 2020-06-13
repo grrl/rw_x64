@@ -119,7 +119,7 @@ void AimAtPos(float x, float y)
 	float ScreenCenterY = (clientHeight / 2);
 	float TargetX = 0;
 	float TargetY = 0;
-	float AimSpeed = 10.0f;
+	float AimSpeed = 4.0f;
 	//smooth = float_rand(0.f, 0.8f);
 	if (x != 0)
 	{
@@ -158,8 +158,8 @@ void AimAtPos(float x, float y)
 		mouse_event(0x0001, (TargetX), (TargetY), NULL, NULL);
 		return;
 	}
-	TargetX /= 10;
-	TargetY /= 10;
+	TargetX /= 1.125f; //10
+	TargetY /= 1.125f; //10
 	if (abs(TargetX) < 1)
 	{
 		if (TargetX > 0)
@@ -368,80 +368,80 @@ void MouseEventAimbot(QWORD Entity) {
 	*/
 
 	///paras
+	
+	switch (randomNumber) {
+	case 1:
+		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		break;
+	case 2:
+		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		break;
+	case 3:
+		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		break;
+	case 4:
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		break;
+	case 5:
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		break;
+	case 6:
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		break;
+	case 7:
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		break;
+	case 8:
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		break;
+	case 9:
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		break;
+	case 10:
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		break;
+	default:
+		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
+	}
+	
+
+	///test
 	/*
 	switch (randomNumber) {
 	case 1:
 		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
 		break;
 	case 2:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
 		break;
 	case 3:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
 		break;
 	case 4:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
 		break;
 	case 5:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 6:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 7:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 8:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 9:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
 		break;
 	case 10:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
 		break;
 	default:
 		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
 	}
 	*/
-
-	///test
-
-	switch (randomNumber) {
-	case 1:
-		HeadPosition = GetEntityBonePosition(Entity, 8, FeetPosition);
-		break;
-	case 2:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
-		break;
-	case 3:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
-		break;
-	case 4:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
-		break;
-	case 5:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
-		break;
-	case 6:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
-		break;
-	case 7:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
-		break;
-	case 8:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
-		break;
-	case 9:
-		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
-		break;
-	case 10:
-		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
-		break;
-	default:
-		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
-	}
-
 	HeadPosition.x += float_rand(-0.35, 0.35);
 	HeadPosition.y += float_rand(-0.35, 0.35);
 	HeadPosition.z += float_rand(-0.35, 0.35);

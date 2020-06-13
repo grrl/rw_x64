@@ -226,9 +226,7 @@ int render() {
 		onKillDowned ^= true;
 		Sleep(200);
 	}
-
-
-	if (GetAsyncKeyState(VK_INSERT) & 0x8000) {
+	else if (GetAsyncKeyState(VK_INSERT) & 0x8000) {
 		if (show_menu)
 			show_menu = false;
 		else
