@@ -158,8 +158,11 @@ void AimAtPos(float x, float y)
 		mouse_event(0x0001, (TargetX), (TargetY), NULL, NULL);
 		return;
 	}
-	TargetX /= 1.125f; //10
-	TargetY /= 1.125f; //10
+
+	float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+	r += 1.0f;
+	TargetX /= r; //10
+	TargetY /= r; //10
 	if (abs(TargetX) < 1)
 	{
 		if (TargetX > 0)
