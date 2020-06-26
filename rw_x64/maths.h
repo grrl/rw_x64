@@ -17,3 +17,5 @@ float float_rand(float min, float max);
 float FastSQRT(float x);
 
 float Dist3D(const Vector3& Src, const Vector3& Dst);
+
+float random_float(float min, float max);

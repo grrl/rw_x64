@@ -159,8 +159,8 @@ void AimAtPos(float x, float y)
 		return;
 	}
 
-	float r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
-	r += 1.0f;
+	float r = float_rand(1.01, 2.0);
+
 	TargetX /= r; //10
 	TargetY /= r; //10
 	if (abs(TargetX) < 1)
@@ -588,9 +588,27 @@ void entity_loop() {
 
 			float armor = GetEntityArmor(entity);
 			float armordelta = (Height / 100.0f) * armor;
-			if (armor > 0)
-				DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 77, 149, 255, 255/*102, 255, 255*/);
+			if (armor > 0) {
+				int armortmax = GetArmorType(entity);
+				//std::cout << "armor is " << armortmax << "\n";
+				switch (armortmax) {
+				case 50:
+					DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 255, 255, 255, 255/*102, 255, 255*/);
+					break;
+				case 75:
+					DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 77, 5, 232, 255/*102, 255, 255*/);
+					break;
+				case 100:
+					DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 191, 85, 236, 255/*102, 255, 255*/);
+					break;
+				default:
+					if (armordelta > 100.f)
+						armordelta = 100.f;
+					DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 240, 52, 52, 255/*102, 255, 255*/);
+					break;
+				}
 
+			}
 			float rMy = 0.392;
 			float gMy = 0.584;
 			float bMy = 0.930;
@@ -670,6 +688,8 @@ void entity_loop() {
 					break;
 				*/
 				default:
+					if (armordelta > 100.f)
+						armordelta = 100.f;
 					DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 240, 52, 52, 255/*102, 255, 255*/);
 					break;
 				}
