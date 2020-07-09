@@ -119,7 +119,7 @@ void AimAtPos(float x, float y)
 	float ScreenCenterY = (clientHeight / 2);
 	float TargetX = 0;
 	float TargetY = 0;
-	float AimSpeed = 4.0f;
+	float AimSpeed = 3.0f;
 	//smooth = float_rand(0.f, 0.8f);
 	if (x != 0)
 	{
@@ -159,7 +159,7 @@ void AimAtPos(float x, float y)
 		return;
 	}
 
-	float r = float_rand(1.01, 2.0);
+	float r = float_rand(5.0, 6.0);
 
 	TargetX /= r; //10
 	TargetY /= r; //10
@@ -392,7 +392,7 @@ void MouseEventAimbot(QWORD Entity) {
 		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
 		break;
 	case 7:
-		HeadPosition = GetEntityBonePosition(Entity, 7, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 8:
 		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
@@ -401,7 +401,7 @@ void MouseEventAimbot(QWORD Entity) {
 		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
 		break;
 	case 10:
-		HeadPosition = GetEntityBonePosition(Entity, 5, FeetPosition);
+		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
 		break;
 	default:
 		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
@@ -445,9 +445,9 @@ void MouseEventAimbot(QWORD Entity) {
 		HeadPosition = GetEntityBonePosition(Entity, 3, FeetPosition);
 	}
 	*/
-	HeadPosition.x += float_rand(-0.35, 0.35);
-	HeadPosition.y += float_rand(-0.35, 0.35);
-	HeadPosition.z += float_rand(-0.35, 0.35);
+	HeadPosition.x += float_rand(-0.4, 0.4);
+	HeadPosition.y += float_rand(-0.4, 0.4);
+	HeadPosition.z += float_rand(-0.4, 0.4);
 
 
 	QWORD active = active_weapon(local);
