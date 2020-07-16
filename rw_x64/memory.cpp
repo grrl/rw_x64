@@ -159,7 +159,7 @@ void AimAtPos(float x, float y)
 		return;
 	}
 
-	float r = float_rand(5.0, 6.0);
+	float r = 6.0;
 
 	TargetX /= r; //10
 	TargetY /= r; //10
