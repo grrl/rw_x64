@@ -193,7 +193,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	return 0;
 }
 
-bool onKillDowned;
+bool onKillDowned = false;
 
 int render() {
 
@@ -212,7 +212,7 @@ int render() {
 		// convert now to tm struct for UTC
 		//tm *gmtm = gmtime(&now);
 		//dt = asctime(gmtm);
-		char stamp[256] = "äOêl ";
+		char stamp[256] = "Shionji ";
 		strcat(stamp, dt);
 		DrawString(stamp, 10, 10, 255, 0, 255, dx_FontCalibri); // Put Main procedure here like ESP etc.
 

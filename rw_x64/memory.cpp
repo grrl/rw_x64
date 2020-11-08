@@ -119,7 +119,7 @@ void AimAtPos(float x, float y)
 	float ScreenCenterY = (clientHeight / 2);
 	float TargetX = 0;
 	float TargetY = 0;
-	float AimSpeed = 3.0f;
+	float AimSpeed = 1.0f;
 	//smooth = float_rand(0.f, 0.8f);
 	if (x != 0)
 	{
@@ -454,17 +454,18 @@ void MouseEventAimbot(QWORD Entity) {
 	bool velocity = true;
 	bool gravity = true;
 
+	
 	if (active)
 	{
 		float BulletSpeed = bullet_speed(active);
 		float BulletGrav = bullet_gravity(active);
-		std::cout << "weapon ok " << "\n";
+		//std::cout << "weapon ok " << "\n";
 		if (BulletSpeed > 1.f)
 		{
 			Vector3 localfeet = GetEntityBasePosition(local);
 			Vector3 muzzle = GetEntityBonePosition(local, 8, FeetPosition);
 
-			std::cout << "bullet ok " << "\n";
+			//std::cout << "bullet ok " << "\n";
 			if (gravity)
 			{
 				float VerticalTime = Dist3D(HeadPosition, muzzle) / BulletSpeed;
@@ -481,7 +482,7 @@ void MouseEventAimbot(QWORD Entity) {
 
 		}
 	}
-
+	
 	Vector3 head_transformed;
 	if (!WorldToScreen(HeadPosition, head_transformed))
 		return;
@@ -496,8 +497,9 @@ void MouseEventAimbot(QWORD Entity) {
 	float radiusx = (fov) * (center_screen.x / 100.0f);
 	float radiusy = (fov) * (center_screen.y / 100.0f);
 
+	//std::cout << "aimpos " << Aimpos.x << " " << Aimpos.y << "\n";
 	if (Aimpos.x >= center_screen.x - radiusx && Aimpos.x <= center_screen.x + radiusx && Aimpos.y >= center_screen.y - radiusy && Aimpos.y <= center_screen.y + radiusy) {
-		//std::cout << "aiming" << "\n";
+		std::cout << "working " << Aimpos.x << " " << Aimpos.y << "\n";
 		if (GetAsyncKeyState(VK_XBUTTON1) & 0x8000)
 			AimAtPos(Aimpos.x, Aimpos.y);
 
@@ -588,6 +590,8 @@ void entity_loop() {
 
 			float armor = GetEntityArmor(entity);
 			float armordelta = (Height / 100.0f) * armor;
+			if (armordelta > 100.f)
+				armordelta = 100.f;
 			if (armor > 0) {
 				int armortmax = GetArmorType(entity);
 				//std::cout << "armor is " << armortmax << "\n";
@@ -602,8 +606,6 @@ void entity_loop() {
 					DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 191, 85, 236, 255/*102, 255, 255*/);
 					break;
 				default:
-					if (armordelta > 100.f)
-						armordelta = 100.f;
 					DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 240, 52, 52, 255/*102, 255, 255*/);
 					break;
 				}
@@ -668,7 +670,8 @@ void entity_loop() {
 
 			float armor = GetEntityArmor(entity);
 			float armordelta = (Height / 100.0f) * armor;
-
+			if (armordelta > 100.f)
+				armordelta = 100.f;
 			if (armor > 0) {
 				int armortmax = GetArmorType(entity);
 				//std::cout << "armor is " << armortmax << "\n";
@@ -688,8 +691,6 @@ void entity_loop() {
 					break;
 				*/
 				default:
-					if (armordelta > 100.f)
-						armordelta = 100.f;
 					DrawHealthBar((entity_transformed.x - Height / 4) + 6, entity_transformed.y, 3, armordelta, 240, 52, 52, 255/*102, 255, 255*/);
 					break;
 				}
